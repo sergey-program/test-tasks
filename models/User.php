@@ -2,102 +2,74 @@
 
 namespace app\models;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
+use app\models\extend\AbstractActiveRecord;
+
+/**
+ * Class User
+ *
+ * @package app\models
+ *
+ * @property int      $id
+ * @property string   $username
+ * @property string   $email
+ * @property string   $password
+ * @property int      $timeCreated
+ * @property string   $authKey
+ * @property string   $timeZone
+ */
+class User extends AbstractActiveRecord
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
-
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
-
     /**
-     * @inheritdoc
+     * @return string
      */
-    public static function findIdentity($id)
+    public static function tableName()
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return 'user';
     }
 
     /**
-     * @inheritdoc
+     * @return array
      */
-    public static function findIdentityByAccessToken($token, $type = null)
+    public function rules()
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        return [
+            [['username', 'email', 'password', 'timeCreated', 'authKey'], 'required'],
+            ['timeZone', 'safe'],
+            ['username', 'filter', 'filter' => 'trim'],
+            ['username', 'unique'],
+            ['email', 'email']
+        ];
     }
 
     /**
-     * Finds user by username
-     *
-     * @param  string      $username
-     * @return static|null
+     * @return array
      */
-    public static function findByUsername($username)
+    public function attributeLabels()
     {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        return [
+            'id' => 'ID'
+        ];
     }
 
     /**
-     * @inheritdoc
+     * @return bool
      */
-    public function getId()
+    public function beforeDelete()
     {
-        return $this->id;
+        \Yii::$app->authManager->revokeAll($this->id);
+
+        return parent::beforeDelete();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAuthKey()
-    {
-        return $this->authKey;
-    }
+    ### relations
+
+    ### functions
 
     /**
-     * @inheritdoc
+     * @return string
      */
-    public function validateAuthKey($authKey)
+    public static function generateAuthKey()
     {
-        return $this->authKey === $authKey;
-    }
-
-    /**
-     * Validates password
-     *
-     * @param  string  $password password to validate
-     * @return boolean if password provided is valid for current user
-     */
-    public function validatePassword($password)
-    {
-        return $this->password === $password;
+        return md5(time() . mt_rand(1, 1000));
     }
 }
