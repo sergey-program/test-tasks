@@ -5,28 +5,27 @@ namespace app\models;
 use app\models\extend\AbstractActiveRecord;
 
 /**
- * Class Task
+ * Class Post
  *
  * @package app\models
  *
- * @property int    $id
- * @property int    $userID
- * @property string $title
- * @property string description
- * @property int    $timeCreated
- * @property int    $timeStart
- * @property int    $timeEnd
+ * @property int  $id
+ * @property int  $userID
+ * @property int  $taskID
+ * @property int  $content
+ * @property int  $timeCreated
  *
- * @property User   $user
+ * @property User $user
+ * @property Task $task
  */
-class Task extends AbstractActiveRecord
+class Post extends AbstractActiveRecord
 {
     /**
      * @return string
      */
     public static function tableName()
     {
-        return 'task';
+        return 'post';
     }
 
     /**
@@ -35,8 +34,8 @@ class Task extends AbstractActiveRecord
     public function rules()
     {
         return [
-            [['userID', 'title', 'timeCreated'], 'required'],
-            [['description', 'timeStart', 'timeEnd'], 'safe']
+            [['userID', 'taskID', 'timeCreated'], 'required'],
+            ['content', 'safe']
         ];
     }
 
@@ -63,9 +62,9 @@ class Task extends AbstractActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPosts()
+    public function getTask()
     {
-        return $this->hasMany(Post::className(), ['taskID' => 'id']);
+        return $this->hasOne(Task::className(), ['id' => 'taskID']);
     }
 
     ### functions
