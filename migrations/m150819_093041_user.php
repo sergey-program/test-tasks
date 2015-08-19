@@ -11,8 +11,32 @@ class m150819_093041_user extends Migration
     /**
      * @return bool
      */
+    private function checkAuthManagerTables()
+    {
+        $db = Yii::$app->getDb();
+        $authManager = \Yii::$app->getAuthManager();
+
+        $tableSchema = (
+            $db->getTableSchema($authManager->itemTable, true) &&
+            $db->getTableSchema($authManager->itemChildTable, true) &&
+            $db->getTableSchema($authManager->assignmentTable, true) &&
+            $db->getTableSchema($authManager->ruleTable, true)
+        );
+
+        return $tableSchema;
+    }
+
+    /**
+     * @return bool
+     */
     public function safeUp()
     {
+        if (!$this->checkAuthManagerTables()) {
+            echo "You must execute 'php yii migrate/up --migrationPath=@yii/rbac/migrations' first.\n";
+
+            return false;
+        }
+
         $this->createTable('user', [
             'id' => 'pk',
             'username' => Schema::TYPE_STRING . ' NOT NULL',
