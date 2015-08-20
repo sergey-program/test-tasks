@@ -28,7 +28,9 @@ return [
                 ]
             ]
         ],
-        'timeZone' => 'UTC'
+//        'formatter' => [
+//            'defaultTimeZone' => 'America/Adak'
+//        ]
     ],
     'modules' => [
         'gii' => 'yii\gii\Module'

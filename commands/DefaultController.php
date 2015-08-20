@@ -14,7 +14,10 @@ use yii\console\Controller;
  */
 class DefaultController extends Controller
 {
-
+    /**
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     */
     public function actionUsers()
     {
         $userList = [
