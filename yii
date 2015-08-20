@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+date_default_timezone_set('UTC');
+
 define('DS', DIRECTORY_SEPARATOR);
 define('FILE_PATH_ROOT', __DIR__ . DS);
 define('FILE_PATH_ROOT_WEB', FILE_PATH_ROOT . 'web' . DS);

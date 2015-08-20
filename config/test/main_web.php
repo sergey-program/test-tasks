@@ -42,7 +42,8 @@ return [
             'targets' => [
                 ['class' => 'yii\log\FileTarget', 'levels' => ['error', 'warning']]
             ]
-        ]
+        ],
+        'timeZone' => 'UTC'
     ],
     'modules' => require_once(FILE_PATH_CONFIG_ENV . '_modules.php')
 ];

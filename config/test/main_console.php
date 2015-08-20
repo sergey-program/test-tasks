@@ -27,7 +27,8 @@ return [
                     'levels' => ['error', 'warning']
                 ]
             ]
-        ]
+        ],
+        'timeZone' => 'UTC'
     ],
     'modules' => [
         'gii' => 'yii\gii\Module'

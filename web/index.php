@@ -1,5 +1,7 @@
 <?php
 
+date_default_timezone_set('UTC');
+
 define('DS', DIRECTORY_SEPARATOR);
 define('FILE_PATH_ROOT_WEB', __DIR__ . DS);
 define('FILE_PATH_ROOT', FILE_PATH_ROOT_WEB . '..' . DS);
