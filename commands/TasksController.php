@@ -42,10 +42,10 @@ class TasksController extends Controller
                 echo "\t--------\n";
 
                 // timestamp wont change if we apply timezone
-                $date = new \DateTime();
-                $date->setTimestamp($task->timeStart);
-                $date->setTimezone(new \DateTimeZone($user->timeZone));
-                echo $task->timeStart . ' => ' . $date->getTimestamp() . "\n"; // same timestamp
+//                $date = new \DateTime();
+//                $date->setTimestamp($task->timeStart);
+//                $date->setTimezone(new \DateTimeZone($user->timeZone));
+//                echo $task->timeStart . ' => ' . $date->getTimestamp() . "\n"; // same timestamp
             }
 
             echo "=========== \n";
