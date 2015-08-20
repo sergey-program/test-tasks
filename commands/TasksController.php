@@ -45,12 +45,7 @@ class TasksController extends Controller
                 $date = new \DateTime();
                 $date->setTimestamp($task->timeStart);
                 $date->setTimezone(new \DateTimeZone($user->timeZone));
-                echo $task->timeStart . ' => ' . $date->getTimestamp() . "\n";
-                $offset = ($date->getOffset() / 60);
-                echo $offset . "\n";
-
-                \Yii::$app->db->createCommand('SET time_zone ' . $offset);
-                // after this action user time zone applied and we can select all we need regarding current (user) timezone
+                echo $task->timeStart . ' => ' . $date->getTimestamp() . "\n"; // same timestamp
             }
 
             echo "=========== \n";
